@@ -3,9 +3,12 @@
 
 ## Allgemeine Infos: 
 * Area of Applicability (AOA) ist ein Bestandteil des R-package Cast 
-* Funktion ermittelt den Dissimilarity Index (DI) und leitet basierend auf einen festgelegten Schwellenwert die AOA eines Vorhersagemodells ab 
-* Vergleich der neuen Daten mit den Daten eines trainierten Modells 
+* Funktion ermittelt den Dissimilarity Index (DI) und leitet basierend auf einen festgelegten Schwellwerts die AOA eines Vorhersagemodells ab 
+* die AOA wird auf Grundlage von Trainingsdaten und neuen Daten geschätzt
 * Trainingsmodell wird mithilfe des caret Package trainiert 
+* die trainiereten Daten dienen dazu die Relevanz der Variablen zu ermitteln
+* daraus lassen sich dann die predictor variables bestimmen
+* die Kenntnis über die Area of Applicability ist dann wichtig, wenn Vorhersagen genutzt werden um Entscheidungen zu treffen 
 
 ## Usage 
 
@@ -28,17 +31,17 @@
   * Daten worüber das Modell Vorhersagen treffen soll 
 * model 
   * mit caret erstelltes Trainingsmodell 
-  * Extraktion gewichteter Daten möglich 
-  * Teil der Daten werden als cross-validation folds genutzt und dienen zur Überprüfung des trainierten Modells
+  * wird zur Extraktion der Gewichtung verwendet
+  * cross-validation folds zur Überprüfung des trainierten Modells
 * cl 
   * nimmt ein Cluster-Objekt entgegen 
   * nur notwendig, falls die Eingabedaten (newdata) relativ groß sind 
 * train   
-  * nimmt ein data frame entgegen 
+  * Funktion zum Training eines data frames
   * enthält die Daten, die für das Training genutzt werden sollen
   * sollte nur genutzt werden, falls kein Trainingsmodell (model) übergeben wird 
 * weight 
-  * data.frame mit Gewichtung der Variablen
+  * Gewichtung der Variablen
   * nur notwendig, falls kein Trainingsmodell (model) vorhanden ist 
 * variables 
   * Eingabe der predictor variables (als Vector) 
@@ -132,17 +135,16 @@
       spplot(AOA$AOA,main="Area of Applicability")
       # }
 
-### Begriffe 
+## Begriffserläuterung
 Cross validation: Technik bei der eine bestimmte Stichprobe eines Datensatzes reserviert und das Modell darauf nicht trainiert wird. Vor der Fertigstellung wird das Modell an dieser Stichprobe getestet. 
 
 Response: "variable of interest", Variable die durch die Vorhersage gemessen wird. Abhängig vom predictor. 
 
 Predictor: Variable, welche die Response beeinflusst. 
 
-Principal Component Analysis (PCA): Verfahren zur Vereinfachung eines großen Datensatzes. Gesamtzahl der Variablen wird reduziert, so dass trotzdem ein großer Anteil der Varianz der Variablen erklärt werden kann. 
+Principal Component Analysis (PCA): Verfahren zur Vereinfachung eines großen Datensatzes. Gesamtzahl der Variablen wird reduziert, so dass der Datensatz besser interpretiert werden kann und gleichzeitig keine Informationen verloren gehen. 
 
-
-### Referenzen
+## Referenzen
 https://www.rdocumentation.org/packages/CAST/versions/0.5.0/topics/aoa
 
 https://cran.r-project.org/web/packages/CAST/CAST.pdf
@@ -152,3 +154,7 @@ Pebesma, E., Meyer, H. (2020) Predicting into unknown space? Estimating the area
 Meyer, H. (2020) Mapping the area of applicability - Case Study 
 
 Pebesma, E., Meyer., H. (2021) Method of the 'Area of Apllicability' (AOA) explained in figures
+
+https://royalsocietypublishing.org/doi/10.1098/rsta.2015.0202
+
+https://cran.r-project.org/web/packages/CAST/vignettes/AOA-tutorial.html
