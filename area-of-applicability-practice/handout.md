@@ -1,7 +1,7 @@
 # Area of Applicability - Practice 
 @Hes097
 
-## Allgemeine Infos: 
+## Allgemeine Informationen: 
 * Area of Applicability (AOA) ist ein Bestandteil des R-package Cast 
 * Funktion ermittelt den Dissimilarity Index (DI) und leitet basierend auf einen festgelegten Schwellwerts die AOA eines Vorhersagemodells ab 
 * die AOA wird auf Grundlage von Trainingsdaten und neuen Daten geschätzt
@@ -10,7 +10,7 @@
 * daraus lassen sich dann die predictor variables bestimmen
 * die Kenntnis über die Area of Applicability ist dann wichtig, wenn Vorhersagen genutzt werden um Entscheidungen zu treffen 
 
-## Usage 
+## Funktionalität & Verwendung:  
 
 ### Aufbau der Funktion
     aoa( 
@@ -53,7 +53,7 @@
 * returnTrainDI
   * falls der Dissimilation Index der Traingsdaten als Attribut zurückgegeben werden soll
 
-## Workflow 
+## Arbeitsprozess zur Bestimmung der Area of Applicability: 
 
 #### 1. Prepare sample data 
 * Anzahl der data points müssen bestimmt werden 
@@ -75,7 +75,7 @@
 * Schwellwert wird festgelegt
 * die Area of Applicability ist der Bereich, in der der DI einen bestimmten Schwellwert nicht überschreitet
 
-## Beispiele 
+## Beispiele: 
     
     # NOT RUN { 
       library(sf)
@@ -135,7 +135,7 @@
       spplot(AOA$AOA,main="Area of Applicability")
       # }
 
-## Begriffserläuterung
+## Begriffserläuterungen:
 Cross validation: Technik bei der eine bestimmte Stichprobe eines Datensatzes reserviert und das Modell darauf nicht trainiert wird. Vor der Fertigstellung wird das Modell an dieser Stichprobe getestet. 
 
 Response: "variable of interest", Variable die durch die Vorhersage gemessen wird. Abhängig vom predictor. 
@@ -144,7 +144,7 @@ Predictor: Variable, welche die Response beeinflusst.
 
 Principal Component Analysis (PCA): Verfahren zur Vereinfachung eines großen Datensatzes. Gesamtzahl der Variablen wird reduziert, so dass der Datensatz besser interpretiert werden kann und gleichzeitig keine Informationen verloren gehen. 
 
-## Referenzen
+## Referenzen:
 https://www.rdocumentation.org/packages/CAST/versions/0.5.0/topics/aoa
 
 https://cran.r-project.org/web/packages/CAST/CAST.pdf
