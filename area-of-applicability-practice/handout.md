@@ -3,10 +3,10 @@
 
 ## Allgemeine Informationen: 
 * Area of Applicability (AOA) ist ein Bestandteil des R-package Cast 
-* Funktion ermittelt den Dissimilarity Index (DI) und leitet basierend auf einen festgelegten Schwellwerts die AOA eines Vorhersagemodells ab 
+* Funktion ermittelt den Dissimilarity Index (DI) und leitet basierend auf einen festgelegten Grenzwert die AOA eines Vorhersagemodells ab 
 * die AOA wird auf Grundlage von Trainingsdaten und neuen Daten geschätzt
 * Trainingsmodell wird mithilfe des caret Package trainiert 
-* die trainiereten Daten dienen dazu die Relevanz der Variablen zu ermitteln
+* die trainierten Daten dienen dazu die Relevanz der Variablen zu ermitteln
 * daraus lassen sich dann die predictor variables bestimmen
 * die Kenntnis über die Area of Applicability ist dann wichtig, wenn Vorhersagen genutzt werden um Entscheidungen zu treffen 
 
@@ -62,7 +62,7 @@
 * Predictors und response werden dann auf der Grundlage einer Prinicipal Component Analysis (PCA) erstellt 
 * weitere Aufbereitungsschritte möglich
 #### 2. Visualize data spatially 
-* Plot der verwendeten Daten 
+* Visualisierung der Daten 
 #### 3. Train a model 
 * Das Training des Modells wird mithilfe des caret Package durchgeführt 
 * Caret nutzt die Random Forest Implementierung von Liaw and Wiener (2002) 
@@ -72,10 +72,13 @@
 * Berechnung der AOA kann relativ viel Zeit einnehmen
 * Bei ähnlichen Eigenschaften des betrachteten Gebiets zu den Trainingsdaten ist die Distanz zur predictor variable space gering, wodurch der Dissimilarity Index gegen 0 tendiert 
 * Besitzen die beiden Datenmodelle unterschiedliche Eigenschaften ergibt sich ein hoher DI
-* Schwellwert wird festgelegt
-* die Area of Applicability ist der Bereich, in der der DI einen bestimmten Schwellwert nicht überschreitet
+* Grenzwert wird festgelegt
+* die Area of Applicability ist der Bereich, in der der DI einen bestimmten Grenzwert nicht überschreitet
+* dieser Grenzwert der AOA ergibt sich aus dem oberen Whisker der DI-Werte der Trainingsdaten
 
 ## Beispiele: 
+
+### Beispiel 1:
     
     # NOT RUN { 
       library(sf)
@@ -134,6 +137,31 @@
       spplot(AOA$DI, col.regions=viridis(100),main="Dissimilarity Index")
       spplot(AOA$AOA,main="Area of Applicability")
       # }
+
+### Beispiel 2: 
+
+### Skalierung und Gewichtung der Daten
+![Create Sample data, scale and weight them](https://user-images.githubusercontent.com/82754880/137089044-00e23734-376f-484c-8916-6b41de93904d.jpg)
+
+Initiale Situation in der die Beispieldaten aufbereitet werden. Zuerst werden die Daten skaliert (a) und danach die Variablen nach ihrer Relevanz gewichtet (b). 
+
+
+
+
+### Berechnung des Dissimilation Index innerhalb der Trainingsdaten zum Erhalt des Grenzwertes der AOA
+![Calculate the DI within the training data to get the threshold for the AOA](https://user-images.githubusercontent.com/82754880/137089885-a5870f1d-ef06-40e4-8279-7f9472c04be4.jpg)
+
+Darstellung der skalierten und gewichteten Trainingsdaten im zweidimensionalen Raum. Zuerst wird der Durschnitt der mittleren Abstände zwischen allen Trainingsdaten berechnet (a). Als nächstes wird dann der DI der Trainingsdaten ermittelt. Danach wird für jeden Punkt  die Distanz zum nächsten Punkt, der nicht im selben cross-validation fold liegt, berechnet (b). Die bestimmte Distanz wird dann durch den Durschnitt der mittleren Abstände geteilt, so dass man den DI eines Punktes erhält. Dieser Vorgang wird für jeden Punkt wiederholt und man erhält so den Grenzwert der Area of Applicability als den oberen Whisker der DI-Werte (Boxplot in b). In (c) wird der Vorgang für einen weiteren Punkt wiederholt. Bei beiden Beispielen ist der DI größer als der Grenzwert, weshalb die Punkte außerhalb der AOA liegen. 
+
+
+
+
+
+### Ermittlung der AOA für jeden neuen potenziellen Datenpunkt
+![Estimate the AOA for each new potential data point](https://user-images.githubusercontent.com/82754880/137093252-a7c2f17f-0ba4-4a78-94a3-0c6a6bb10d25.jpg)
+
+Der berechnete Grenzwert kann dann auf das gesamte zu untersuchende Gebiet angewendet werden, um die AOA für jeden neuen Datenpunkt abzuleiten. Die im rechten Bild dargestellten Bereiche liegen außerhalb der AOA. 
+
 
 ## Begriffserläuterungen:
 Cross validation: Technik bei der eine bestimmte Stichprobe eines Datensatzes reserviert und das Modell darauf nicht trainiert wird. Vor der Fertigstellung wird das Modell an dieser Stichprobe getestet. 
